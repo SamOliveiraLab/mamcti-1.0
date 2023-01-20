@@ -1,4 +1,4 @@
-# mamcti-2.0
+# Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging 2.0 (mamcti-2.0)
 Code Repository for Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging (mamcti)
 
 ## Quick To-Do
