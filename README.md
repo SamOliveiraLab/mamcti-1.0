@@ -18,7 +18,8 @@ Code Repository for Microscope Stage Automation for Multiple-location Chamber Ti
 ### Application dependencies
 * Python >= 3.10
 * Tkinter (included in python official release)
-* 
+* Micromanager 2.0
+* Pycromanager 0.19.2
 ### ML/AI dependecies
 * OpenCV2
 * Mahotas
@@ -26,7 +27,7 @@ Code Repository for Microscope Stage Automation for Multiple-location Chamber Ti
 ## Starting the MAMCTI application (Dev env) using the lab computer located in CILSE.
 > This section assumes the usage of Nikon Eclipse TI2 Microscope, but this application should be generalized to most microscopic hardware.
 
-This section details how to run the application in a development environment. This section also assumes that pycromanager's config file is successfully made and configured to your micrscopes configurations. **You must have pycromanager opened as well.**
+This section details how to run the application in a development environment. This section also assumes that microomanager's config file is successfully made and configured to your micrscopes configurations. **You must have micromanager opened as well.**
 
 ### 1.) Open and Configure Anaconda Navigator
 Anaconda Navigator should be installed on this desktop. If not, then you can find it here:
