@@ -37,13 +37,13 @@ https://docs.anaconda.com/navigator/index.html
 
 Once the application is open, make sure to switch to the pycroenv virtual environment as shown below by clicking on the play button.
 
-<img src="./img/1.png" width="200" height="400" style="margin-right: 100px" />
+<img src="./img/1.png" width="291" height="250" style="margin-right: 100px" />
 
 If such an environment does not exist. Then create one by clicking on the create button at the bottom of Anaconda Navigator. Note that you will have to do conda install for missing dependencies.
 
 By clicking the play button, select "Open in terminal". This should open up a cmd command prompt as shown below.
 
-[insert image 2]
+<img src="./img/2.png" width="974" height="500" style="margin-right: 100px" />
 
 Naturally, verify your terminal is in the correct chosen environment through your CMD header. For example, we can see that for our pycroenv virtual environment, the header is depicted as:
 ```
@@ -61,30 +61,29 @@ d: …
 ```
 to which the expected output is:
 
-[insert image 3]
+<img src="./img/3.png" width="137" height="37" style="margin-right: 100px" />
 
 Once on the correct drive, change directory into the target directory (cd). A fast way is to use file explorer to get the address of the target folder as text as shown below.
 
-[insert image 4]
+<img src="./img/4.png" width="892" height="126" style="margin-right: 100px" />
 
 then paste it into the cmd similar to below:
 ```
 cd D:\CIDAR\Sam\Zach\mamcti\mamcti-2.0\mamcti
 ```
  > You can use "dir" command to verify you are in the correct file location.
- <br>
- [insert image 5]
+ <img src="./img/5.png" width="933" height="299" style="margin-right: 100px" />
  
 ### 3.) Run the application
 In your CMD prompt, run the following command to bootstrap the application.
 ```
 python main.py
 ```
-[insert image 6]
+<img src="./img/6.png" width="561" height="27" style="margin-right: 100px" />
 
 The application should open as seen below:
 
-[insert image 7]
+<img src="./img/7.png" width="259" height="214" style="margin-right: 100px" />
 
 ## Figure Dump
 Below are some figures that are generated for the purposes fo this research project.
