@@ -37,8 +37,7 @@ https://docs.anaconda.com/navigator/index.html
 
 Once the application is open, make sure to switch to the pycroenv virtual environment as shown below by clicking on the play button.
 
-[insert image 1]
-
+<img src="./img/1.png" width="200" height="400" style="margin-right: 100px" />
 
 If such an environment does not exist. Then create one by clicking on the create button at the bottom of Anaconda Navigator. Note that you will have to do conda install for missing dependencies.
 
