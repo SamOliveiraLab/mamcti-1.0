@@ -151,7 +151,7 @@ class Micro_Env:
 ###########################################################
 
 root = Tk()
-root.title("MAMCTI-2.0")
+root.title("MAMCTI-1.0")
 
 # Bootstrap phase
 core = Core(); # Pycro Core initialization
