@@ -89,9 +89,12 @@ The application should open as seen below:
 <img src="./img/7.png" width="259" height="214" style="margin-right: 100px" />
 
 ## Algorithms
-Below are some figures that are generated for the purposes fo this research project.
+List of algorithms used.
 
 ## Results (Figures)
 Below are some figures that are generated for the purposes fo this research project.
+
+## Citations
+List of Citations from papers.
 
 <br>
