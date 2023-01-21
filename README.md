@@ -1,7 +1,7 @@
-# Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging 2.0 (mamcti-2.0)
+# Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging 1.0 (mamcti-1.0)
 Code Repository for Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging (mamcti)
 
-This repository, `mamcti-2.0`, contains the codes needed to automate the movement of the microscope stage with respect to a matrix of the chamber positions in a microfluidic chip. It is automated to capture a multi-channel time-lapse experiment. It corrects the errors in alignment using a chamber detection algorithm real-time. It also interfaces with `MLIDA` to conduct on the flu image analysis.
+This repository, `mamcti-1.0`, contains the codes needed to automate the movement of the microscope stage with respect to a matrix of the chamber positions in a microfluidic chip. It is automated to capture a multi-channel time-lapse experiment. It corrects the errors in alignment using a chamber detection algorithm real-time. It also interfaces with `MLIDA` to conduct on the flu image analysis.
 ## Quick To-Dos
 | Task  | Status | Type |
 | ------------- |:-------------:|:-------------:|
