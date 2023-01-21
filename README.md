@@ -5,14 +5,15 @@ This repository, `mamcti-2.0`, contains the codes needed to automate the movemen
 ## Quick To-Dos
 | Task  | Status | Type |
 | ------------- |:-------------:|:-------------:|
-| Compile to Executable             | Not Done |  Late-Development |
-| PyCro Dependency Check            | Not Done |  Early-Development |
-| ML/AI Python script injection     | Not Done |  Early-Development |
-| Basic Microscopic Movement        | Done     |  Early-Development |
-| Unit Test Pipeline                | Not Done |  DevOps |
-| Integration Test Pipeline         | Not Done |  DevOps |
-| Contour Detection                 | Not Done |  AI/ML Issue |
-| Edge Detection                    | Not Done |  AI/ML Issue |
+| Compile to Executable                     | Not Done |  Late-Development |
+| PyCro Dependency Check                    | Not Done |  Early-Development |
+| ML/AI Python script injection             | Not Done |  Early-Development |
+| Basic Microscopic Movement                | Done     |  Early-Development |
+| Unit Test Pipeline                        | Not Done |  DevOps |
+| Integration Test Pipeline                 | Not Done |  DevOps |
+| Contour Detection                         | Not Done |  AI/ML Issue |
+| Edge Detection                            | Not Done |  AI/ML Issue |
+| Python Code Optimization/Vectorization    | Not Done |  Late-Development |
 
 
 ## Dependencies
