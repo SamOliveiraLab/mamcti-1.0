@@ -1,18 +1,19 @@
-# Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging 2.0 (mamcti-2.0)
+# Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging 1.0 (mamcti-1.0)
 Code Repository for Microscope Stage Automation for Multiple-location Chamber Time-lapse Imaging (mamcti)
 
-This repository, `mamcti-2.0`, contains the codes needed to automate the movement of the microscope stage with respect to a matrix of the chamber positions in a microfluidic chip. It is automated to capture a multi-channel time-lapse experiment. It corrects the errors in alignment using a chamber detection algorithm real-time. It also interfaces with `MLIDA` to conduct on the flu image analysis.
+This repository, `mamcti-1.0`, contains the codes needed to automate the movement of the microscope stage with respect to a matrix of the chamber positions in a microfluidic chip. It is automated to capture a multi-channel time-lapse experiment. It corrects the errors in alignment using a chamber detection algorithm real-time. It also interfaces with `MLIDA` to conduct on the flu image analysis.
 ## Quick To-Dos
 | Task  | Status | Type |
 | ------------- |:-------------:|:-------------:|
-| Compile to Executable             | Not Done |  Late-Development |
-| PyCro Dependency Check            | Not Done |  Early-Development |
-| ML/AI Python script injection     | Not Done |  Early-Development |
-| Basic Microscopic Movement        | Done     |  Early-Development |
-| Unit Test Pipeline                | Not Done |  DevOps |
-| Integration Test Pipeline         | Not Done |  DevOps |
-| Contour Detection                 | Not Done |  AI/ML Issue |
-| Edge Detection                    | Not Done |  AI/ML Issue |
+| Compile to Executable                     | Not Done |  Late-Development |
+| PyCro Dependency Check                    | Not Done |  Early-Development |
+| ML/AI Python script injection             | Not Done |  Early-Development |
+| Basic Microscopic Movement                | Done     |  Early-Development |
+| Unit Test Pipeline                        | Not Done |  DevOps |
+| Integration Test Pipeline                 | Not Done |  DevOps |
+| Contour Detection                         | Not Done |  AI/ML Issue |
+| Edge Detection                            | Not Done |  AI/ML Issue |
+| Python Code Optimization/Vectorization    | Not Done |  Late-Development |
 
 
 ## Dependencies
@@ -87,7 +88,13 @@ The application should open as seen below:
 
 <img src="./img/7.png" width="259" height="214" style="margin-right: 100px" />
 
-## Figure Dump
+## Algorithms
+List of algorithms used.
+
+## Results (Figures)
 Below are some figures that are generated for the purposes fo this research project.
+
+## Citations
+List of Citations from papers.
 
 <br>
