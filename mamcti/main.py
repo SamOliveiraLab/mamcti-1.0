@@ -30,8 +30,10 @@ class Micro_Env:
         self.curr_coord_array = [core.get_xy_stage_position().get_x(), core.get_xy_stage_position().get_y()];
 
         # Other
-        self.display_image_left = None;
-        self.display_image_right = None;
+        self.display_image_left_top = None;
+        self.display_image_right_top = None;
+        self.display_image_left_bottom = None;
+        self.display_image_right_bottom = None;
         self.default_file_path = os.getcwd();
 
     ########## Setters ##########
@@ -40,36 +42,26 @@ class Micro_Env:
 
     ########### Positional Functions ###########
     # Stage to the right 50 pixels away
-    def move_right_50(self, frame, file_path, filename, ttk):
-        # If a image existed, delete it
-        if (os.path.isfile("./" + filename)):
-            self.delete_snapshot(file_path, filename);
+    def move_right_50(self, frames, file_path, filenames, ttk, algorithm):
+        start_time = time.time(); # Start Program Timer for optimization purposes
+
+        if (algorithm == "" or algorithm == None):
+            print("Move_Right_50 Error: Algorithm not specified!");
+            return;
+
+        for f in filenames:
+            # If a image existed, delete it
+            if (os.path.isfile("./" + f)):
+                self.delete_snapshot(file_path, f);
 
         print("Old Coordinates:", self.curr_coord_array);
         self.curr_coord_array[0] = self.curr_coord_array[0] - 50;
         self.core.set_xy_position(self.curr_coord_array[0], self.curr_coord_array[1]);
 
-        # Move the micrscope and take a snapshot
-        self.capture_and_save(file_path);
-        self.set_display_image(frame, 2, file_path, filename, ttk);
-
-        # Conduct Image processing (PST);
-        results = PST_Output(file_path, filename);
-        print("orig type:", type(results[0]));
-        print("orig:", results[0]);
-        print("orig type:", type(results[1]));
-        print("edge:", results[1]);
-        print("orig type:", type(results[2]));
-        print("overlay:", results[2]);
-        os.chdir(file_path);
-
-        im = Image.fromarray(results[1]);
-        im.save("edge.png");
-
-        os.chdir(self.default_file_path);
-
+        self.process_image(frames, file_path, filenames, ttk, algorithm);
 
         print("New Coordinates:", self.curr_coord_array);
+        print("--- %s seconds ---" % (time.time() - start_time));
 
     # Stage to the left 50 pixels away 
     def move_left_50(self, frame, file_path, filename, ttk):
@@ -77,26 +69,26 @@ class Micro_Env:
         self.curr_coord_array[0] = self.curr_coord_array[0] + 50;
         self.core.set_xy_position(self.curr_coord_array[0], self.curr_coord_array[1]);
 
-        # Image Display Protocol
-        self.capture_and_save(file_path);
-        self.set_display_image(frame, 2, file_path, filename, ttk);
+        # Move the micrscope and take a snapshot
+        self.capture_and_save(file_path, "original.png");
+        self.set_display_image(frame, 2, 0, file_path, filename, ttk);
 
         print("New Coordinates:", self.curr_coord_array);
 
     # Reset Stage to hard coded value
     def reset_pos(self, frame, file_path, filename, ttk):
-        self.curr_coord_array[0] = -11943.1;
-        self.curr_coord_array[1] = -2523;
-        self.core.set_xy_position(-11943.1, -2523); # Reset Position
+        self.curr_coord_array[0] = -11703;
+        self.curr_coord_array[1] = -344.6;
+        self.core.set_xy_position(self.curr_coord_array[0], self.curr_coord_array[1]); # Reset Position
 
         # Image Display Protocol
-        self.capture_and_save(file_path);
-        self.set_display_image(frame, 2, file_path, filename, ttk);
+        self.capture_and_save(file_path, "original.png");
+        self.set_display_image(frame, 2, 0, file_path, filename, ttk);
 
         print("New Coordinates:", self.curr_coord_array);
 
     ########### Image Capture Functions ###########
-    def capture_and_save(self, file_path):
+    def capture_and_save(self, file_path, filename):
         time.sleep(0.5);
         self.core.set_exposure(300);
         self.core.snap_image();
@@ -104,7 +96,7 @@ class Micro_Env:
         pixels = np.reshape(tagged_image.pix, newshape=[tagged_image.tags['Height'], tagged_image.tags['Width']]);
 
         os.chdir(file_path);
-        cv2.imwrite("temp.png", pixels);
+        cv2.imwrite(filename, pixels);
         os.chdir(self.default_file_path);
         print("Save operation complete");
 
@@ -122,31 +114,71 @@ class Micro_Env:
         
 
     ########### Image Display Functions ###########
-    def set_display_image(self, frame, col, file_path, filename, ttk):
+    def set_display_image(self, frame, col, row, file_path, filename, ttk):
         os.chdir(file_path);
         if (os.path.isfile("./" + filename)):
             cv_img = cv2.cvtColor(cv2.imread("./" + filename), cv2.COLOR_BGR2RGB) # Use OpenCV read as its more robust
             im_pil = Image.fromarray(cv_img).resize((500, 500)); # OpenCV format --> PIL format
             img = ImageTk.PhotoImage(im_pil);
-            if (col == 2):
-                self.display_image_left = img; # Do this to prevent garbage collection;
-            elif(col == 3):
-                self.display_image_right = img; # Do this to prevent garbage collection;
 
-            ttk.Label(frame, image=img).grid(column=col, row=0);
-            print("Display File Found");
+            if (col == 2 and row == 0):
+                self.display_image_left_top = img; # Do this to prevent garbage collection;
+            elif(col == 3 and row == 0):
+                self.display_image_right_top = img; # Do this to prevent garbage collection;
+            elif(col == 2 and row == 1):
+                self.display_image_left_bottom = img; # Do this to prevent garbage collection;
+            elif(col == 3 and row == 1):
+                self.display_image_right_bottom = img; # Do this to prevent garbage collection;
+
+            ttk.Label(frame, image=img).grid(column=col, row=row);
+            print("Display File(s) Found");
         else:
             # Display Text if Empty
-            ttk.Label(frame, text="[No Microscope Image]").grid(column=col, row=0);
+            ttk.Label(frame, text="[No Microscope Image]").grid(column=col, row=row);
         os.chdir(self.default_file_path);
 
-    def clear_display_image_cache(self, frame, file_path, filename):
-        if (self.delete_snapshot(file_path, filename)):
-            print("Cache is cleared!");
-        else:
-            print("Cache is empty");
+    def clear_display_image_cache(self, frames, file_path, filenames):
+        for filename in filenames:
+            self.delete_snapshot(file_path, filename);
+        print("Image Cache Cleared!");
+
+        print(frames[0]);
+
         # Display Text if Empty
-        ttk.Label(frame, text="[No Microscope Image]").grid(column=col, row=0);
+        ttk.Label(frames[0], text="[No Microscope Image]").grid(column=2, row=0);
+        ttk.Label(frames[1], text="[No Microscope Image]").grid(column=3, row=0);
+        ttk.Label(frames[2], text="[No Microscope Image]").grid(column=2, row=1);
+        ttk.Label(frames[3], text="[No Microscope Image]").grid(column=3, row=1);
+
+    ########### Image Processing Infrastructure ###########
+    def process_image(self, frames, file_path, filenames, ttk, algorithm):
+        # Image Display Protocol
+        self.capture_and_save(file_path, "original.png");
+
+        match algorithm:
+            case "PST":
+                print("Using PST Algorithm");
+
+                # Conduct Image processing (PST);
+                results = PST_Output(file_path, "original.png");
+                os.chdir(file_path);
+
+                im_edge = Image.fromarray(results[1]);
+                im_edge.save("edge.png");
+
+                im_overlay = Image.fromarray(results[2]);
+                im_overlay.save("overlay.png");
+
+                self.set_display_image(frames[0], 2, 0, file_path, filenames[0], ttk);
+                self.set_display_image(frames[1], 3, 0, file_path, filenames[1], ttk);
+                self.set_display_image(frames[2], 2, 1, file_path, filenames[2], ttk);
+                self.set_display_image(frames[3], 3, 1, file_path, filenames[3], ttk);
+
+                os.chdir(self.default_file_path);
+            case "None":
+                print("Algorithm parameter passed.");
+            case _:
+                return "Process_Image Error: Algorithm not found!";
 
 ###########################################################
 
@@ -192,22 +224,28 @@ root.columnconfigure(0, weight=1)
 root.rowconfigure(0, weight=1)
 
 # TKINT FRAMES
-Middle_Frame_Left = ttk.Frame(root, width=500, height=500).grid(column=2, row=0);
-Middle_Frame_Right = ttk.Frame(root, width=500, height=500).grid(column=3, row=0);
+Middle_Frame_Left_Top = ttk.Frame(root, width=500, height=500).grid(column=2, row=0);
+Middle_Frame_Left_Bottom = ttk.Frame(root, width=500, height=500).grid(column=2, row=1);
+Middle_Frame_Right_Top = ttk.Frame(root, width=500, height=500).grid(column=3, row=0);
+Middle_Frame_Right_Bottom = ttk.Frame(root, width=500, height=500).grid(column=3, row=1);
+
+frame_arr = [Middle_Frame_Left_Top, Middle_Frame_Right_Top, Middle_Frame_Left_Bottom, Middle_Frame_Right_Bottom];
+PST_filenames = ["original.png", "edge.png", "overlay.png", "contour.png"];
 
 # Left side Command Column
 ttk.Label(mainframe, text="Commands").grid(column=1, row=0);
 ttk.Button(mainframe, text="Display Microscopic Array", command=HelloWorld).grid(column=1, row=1, sticky=W)
-ttk.Button(mainframe, text="Move Microscope to the RIGHT by 50 pixels", command=partial(obj.move_right_50, Middle_Frame_Left, display_file_path, "temp.png", ttk)).grid(column=1, row=2, sticky=W)
-ttk.Button(mainframe, text="Move Microscope to the LEFT by 50 pixels", command=partial(obj.move_left_50, Middle_Frame_Left, display_file_path, "temp.png", ttk)).grid(column=1, row=3, sticky=W)
-ttk.Button(mainframe, text="Take a Snapshot", command=partial(obj.capture_and_save, display_file_path)).grid(column=1, row=4, sticky=W)
-ttk.Button(mainframe, text="Clear Image Cache", command=partial(obj.clear_display_image_cache, Middle_Frame_Left, display_file_path, "temp.png")).grid(column=1, row=5, sticky=W)
-ttk.Button(mainframe, text="Reset Position", command=partial(obj.reset_pos, Middle_Frame_Left, display_file_path, "temp.png", ttk)).grid(column=1, row=6, sticky=W)
-ttk.Button(mainframe, text="Exit", command=root.quit).grid(column=1, row=7, sticky=W)
+ttk.Button(mainframe, text="Move Microscope to the RIGHT by 50 pixels", command=partial(obj.move_right_50, frame_arr, display_file_path, PST_filenames, ttk, "PST")).grid(column=1, row=2, sticky=W)
+ttk.Button(mainframe, text="Move Microscope to the LEFT by 50 pixels", command=partial(obj.move_left_50, Middle_Frame_Left_Top, display_file_path, "original.png", ttk)).grid(column=1, row=3, sticky=W)
+ttk.Button(mainframe, text="Clear Image Cache", command=partial(obj.clear_display_image_cache, frame_arr, display_file_path, PST_filenames)).grid(column=1, row=4, sticky=W)
+ttk.Button(mainframe, text="Reset Position", command=partial(obj.reset_pos, Middle_Frame_Left_Top, display_file_path, "original.png", ttk)).grid(column=1, row=5, sticky=W)
+ttk.Button(mainframe, text="Exit", command=root.quit).grid(column=1, row=6, sticky=W)
 
 # Setting Middle Section
-obj.set_display_image(Middle_Frame_Left, 2, display_file_path, "temp.png", ttk);
-obj.set_display_image(Middle_Frame_Right, 3, display_file_path, "edge.png", ttk);
+obj.set_display_image(Middle_Frame_Left_Top, 2, 0, display_file_path, "original.png", ttk);
+obj.set_display_image(Middle_Frame_Left_Bottom, 2, 1, display_file_path, "overlay.png", ttk);
+obj.set_display_image(Middle_Frame_Right_Top, 3, 0, display_file_path, "edge.png", ttk);
+obj.set_display_image(Middle_Frame_Right_Bottom, 3, 1, display_file_path, "contour.png", ttk);
 
 # Some padding and polish
 for child in mainframe.winfo_children(): 
